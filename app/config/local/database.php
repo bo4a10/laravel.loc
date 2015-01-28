@@ -18,6 +18,8 @@ return array(
 	|
 	*/
 
+	'default' => 'pgsql',
+
 	'connections' => array(
 
 		'mysql' => array(
@@ -34,9 +36,9 @@ return array(
 		'pgsql' => array(
 			'driver'   => 'pgsql',
 			'host'     => 'localhost',
-			'database' => 'homestead',
-			'username' => 'homestead',
-			'password' => 'secret',
+			'database' => 'laravel-loc',
+			'username' => 'postgres',
+			'password' => 'postgres',
 			'charset'  => 'utf8',
 			'prefix'   => '',
 			'schema'   => 'public',
