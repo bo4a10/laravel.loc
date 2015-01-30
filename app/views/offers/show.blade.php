@@ -2,20 +2,20 @@
 
 @section('main')
 
-<h1>Show Offer</h1>
+<h1>Просмотр скидки</h1>
 
-<p>{{ link_to_route('offers.index', 'Return to all offers') }}</p>
+<p>{{ link_to_route('offers.index', 'Вернуться к списку скидок') }}</p>
 
 <table class="table table-striped table-bordered">
 	<thead>
 		<tr>
-			<th>Title</th>
-				<th>Description</th>
-				<th>City_id</th>
-				<th>Company_id</th>
+			<th>Название</th>
+				<th>Описание</th>
+				<th>Город</th>
+				<th>Компания</th>
 				<th>Off</th>
-				<th>Image</th>
-				<th>Expires</th>
+				<th>Изображение</th>
+				<th>Действует до</th>
 		</tr>
 	</thead>
 

@@ -26,7 +26,7 @@ $app = new Illuminate\Foundation\Application;
 
 $env = $app->detectEnvironment(array(
 
-	'local' => array('igor-X550VL'),
+	'local' => array('igor-PC'),
 
 ));
 

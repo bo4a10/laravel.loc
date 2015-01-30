@@ -46,7 +46,7 @@
         </li>
 
         <li>
-            {{ Form::label('file', 'Image:') }}
+            {{ Form::label('file', 'Изображение:') }}
             {{ Form::file('file')}}
             <img src="" id="thumb" style="max-width:300px; max-height: 200px; display: block;">
             {{ Form::hidden('image') }}
@@ -54,7 +54,7 @@
         </li>
 
         <li>
-            {{ Form::label('expires', 'Expires:') }}
+            {{ Form::label('expires', 'Дейтсвует до:') }}
             {{ Form::text('expires') }}
         </li>
 
@@ -64,7 +64,7 @@
         </li>
 
 		<li>
-			{{ Form::submit('Submit', array('class' => 'btn btn-info')) }}
+			{{ Form::submit('Добавить', array('class' => 'btn btn-info')) }}
 		</li>
 	</ul>
 {{ Form::close() }}

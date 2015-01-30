@@ -2,17 +2,17 @@
 
 @section('main')
 
-<h1>Create Tag</h1>
+<h1>Создать новый тэг</h1>
 
 {{ Form::open(array('route' => 'tags.store')) }}
 	<ul>
         <li>
-            {{ Form::label('title', 'Title:') }}
+            {{ Form::label('title', 'Название:') }}
             {{ Form::text('title') }}
         </li>
 
 		<li>
-			{{ Form::submit('Submit', array('class' => 'btn btn-info')) }}
+			{{ Form::submit('Добавить', array('class' => 'btn btn-info')) }}
 		</li>
 	</ul>
 {{ Form::close() }}

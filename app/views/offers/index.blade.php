@@ -37,11 +37,11 @@
 				</td>
 				<td>{{{ $offer->expires }}}</td>
 				<td>
-					{{ link_to_route('offers.edit', 'Edit', array($offer->id), array('class' => 'btn btn-info')) }}
+					{{ link_to_route('offers.edit', 'Редактировать', array($offer->id), array('class' => 'btn btn-info')) }}
 				</td>
 				<td>
 					{{ Form::open(array('method' => 'DELETE', 'route' => array('offers.destroy', $offer->id))) }}
-					{{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
+					{{ Form::submit('Удалить', array('class' => 'btn btn-danger')) }}
 					{{ Form::close() }}
 				</td>
 			</tr>
@@ -49,7 +49,7 @@
 		</tbody>
 	</table>
 @else
-	There are no offers
+	<h3>Нет скидок на данный момент</h3>
 @endif
 
 @stop

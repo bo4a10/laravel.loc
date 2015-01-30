@@ -6,12 +6,12 @@
     {{ Form::model($offer, array('method' => 'PATCH', 'route' => array('offers.update', $offer->id))) }}
     <ul>
         <li>
-            {{ Form::label('title', 'Title:') }}
+            {{ Form::label('title', 'Название:') }}
             {{ Form::text('title') }}
         </li>
 
         <li>
-            {{ Form::label('description', 'Description:') }}
+            {{ Form::label('description', 'Описание:') }}
             {{ Form::textarea('description') }}
         </li>
 
@@ -21,7 +21,7 @@
         } ?>
 
         <li>
-            {{ Form::label('city_id', 'City_id:') }}
+            {{ Form::label('city_id', 'Город:') }}
             {{ Form::select('city_id', $cities) }}
         </li>
 
@@ -31,7 +31,7 @@
         } ?>
 
         <li>
-            {{ Form::label('company_id', 'Company_id:') }}
+            {{ Form::label('company_id', 'Компания:') }}
             {{ Form::select('company_id', $companies) }}
         </li>
 
@@ -41,7 +41,7 @@
         </li>
 
         <li>
-            {{ Form::label('file', 'Image:') }}
+            {{ Form::label('file', 'Изображение:') }}
             {{ Form::file('file')}}
             <img src="" id="thumb" style="max-width:300px; max-height: 200px; display:block; ">
             {{ Form::hidden('image') }}
@@ -49,18 +49,18 @@
         </li>
 
         <li>
-            {{ Form::label('expires', 'Expires:') }}
+            {{ Form::label('expires', 'Действует до:') }}
             {{ Form::text('expires') }}
         </li>
 
         <li>
-            {{ Form::label('tags', 'Tags:') }}
+            {{ Form::label('tags', 'Тэги:') }}
             {{ Form::text('tags', Input::old('tags', implode(', ', array_fetch($offer->tags()->get(array('title'))->toArray(), 'title')))) }}
         </li>
 
         <li>
-            {{ Form::submit('Update', array('class' => 'btn btn-info')) }}
-            {{ link_to_route('offers.show', 'Cancel', $offer->id, array('class' => 'btn')) }}
+            {{ Form::submit('Обновить', array('class' => 'btn btn-info')) }}
+            {{ link_to_route('offers.show', 'Отмена', $offer->id, array('class' => 'btn')) }}
         </li>
     </ul>
     {{ Form::close() }}
