@@ -43,12 +43,29 @@ class OffersController extends BaseController {
 	 */
 	public function store()
 	{
-		$input = Input::all();
-		$validation = Validator::make($input, Offer::$rules);
+		$rules = Offer::$rules;
+		$rules['expires'] .= '|after:'.date('Y-m-d', strtotime('+1 day')).'|before:'.date('Y-m-d', strtotime('+1 month'));
+
+		$validation = Validator::make(Input::all(), $rules);
 
 		if ($validation->passes())
 		{
-			$this->offer->create($input);
+			$tags = array();
+
+			foreach (explode(', ', Input::get('tags')) as $tag_name) {
+				if ($tag = Tag::where('title', '=', $tag_name)->first()) {
+					$tags[] = $tag->id;
+				}
+			}
+
+			if (count($tags) == 0) {
+				return Redirect::route('offers.create')
+					->withInput()
+					->with('message', 'Insert at least one tag.');
+			}
+
+			$offer = $this->offer->create(Input::except('tags', 'file'));
+			$offer->tags()->sync($tags);
 
 			return Redirect::route('offers.index');
 		}
@@ -98,13 +115,32 @@ class OffersController extends BaseController {
 	 */
 	public function update($id)
 	{
-		$input = array_except(Input::all(), '_method');
-		$validation = Validator::make($input, Offer::$rules);
+		$offer = $this->offer->findOrFail($id);
+
+		$rules = Offer::$rules;
+		$rules['expires'] .= '|after:'.date('Y-m-d', strtotime('+1 day')).'|before:'.date('Y-m-d', strtotime('+1 month'));
+
+		$validation = Validator::make(Input::all(), $rules);
 
 		if ($validation->passes())
 		{
-			$offer = $this->offer->find($id);
-			$offer->update($input);
+			$tags = array();
+
+			foreach (explode(', ', Input::get('tags')) as $tag_name) {
+				if ($tag = Tag::where('title', '=', $tag_name)->first()) {
+					$tags[] = $tag->id;
+				}
+			}
+
+			if (count($tags) == 0) {
+				return Redirect::route('offers.create')
+					->withInput()
+					->withErrors($validation)
+					->with('message', 'Insert at least one tag.');
+			}
+
+			$offer->update(Input::except('tags', 'file', '_method'));
+			$offer->tags()->sync($tags);
 
 			return Redirect::route('offers.show', $id);
 		}

@@ -35,7 +35,23 @@ class LoginController extends BaseController {
 			'username'	=> 'required|alpha_num|between:2,20|unique:users,username'
 		);
 
-		$validator = Validator::make(Input::all(), $rules);
+		$messages = [
+			'required' => 'Поле :attribute должно быть заполнено',
+			'email' => 'Неверный формат поля :attribute',
+			'alpha_num' => 'Поле :attribute должно состоять только из цифр и букв алфавита',
+			'between' => 'Значение поля :attribute должно быть от :min до :max символов',
+			'unique' => 'Значение :attribute уже существует в базе данных',
+		];
+
+		// Названия для полей валидации
+		$attributesName = [
+			'email' => 'Электронная почта',
+			'password' => 'Пароль',
+			'username' => 'Логин'
+		];
+
+		$validator = Validator::make(Input::all(), $rules, $messages);
+		$validator->setAttributeNames($attributesName);
 
 		if($validator->fails()){
 			return Redirect::back()->withInput()->withErrors($validator);
@@ -65,7 +81,7 @@ class LoginController extends BaseController {
 			return Redirect::intended('dashboard');
 		}
 
-		return Redirect::back()->withInput(Input::except('password'))->with('message', 'Wrong creadentials!');
+		return Redirect::back()->withInput(Input::except('password'))->with('message', 'Такого пользователя нет в системе!');
 	}
 
 	/**
@@ -77,7 +93,7 @@ class LoginController extends BaseController {
 	{
 		Auth::logout();
 
-		return Redirect::home()->with('message', 'See you again!');
+		return Redirect::home()->with('message', 'До скорых встреч!');
 	}
 
 }

@@ -23,6 +23,14 @@ class TagsController extends BaseController {
 	{
 		$tags = $this->tag->all();
 
+		// Запрос является AJAX запросом
+		if (Request::ajax()) {
+			// Выберем только те теги, которые подходят по критериям поиска
+			$tags = Tag::where('title', 'like', '%'.Input::get('term', '').'%')->get(array('title'));
+			// Вернем ответ в формате json
+			return $tags;
+		}
+
 		return View::make('tags.index', compact('tags'));
 	}
 

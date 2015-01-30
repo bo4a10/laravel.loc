@@ -20,4 +20,34 @@ class HomeController extends BaseController {
 		return View::make('hello');
 	}
 
+	/**
+	 * Загрузка изображения
+	 * @return \Illuminate\Http\JsonResponse
+	 */
+
+	public function uploadOfferImage()
+	{
+		$rules = array('file' => 'mimes:jpeg,png');
+
+		$messages = [
+			'mimes' => 'Файл должен быть с разрешением png, jpeg'
+		];
+
+		$validator = Validator::make(Input::all(), $rules, $messages);
+
+		if ($validator->fails()) {
+			return Response::json(array('message' => $validator->messages()->first('file')));
+		}
+
+		$dir = '/images'.date('/Y/m/d/');
+
+		do {
+			$filename = str_random(30).'.jpg';
+		} while (File::exists(public_path().$dir.$filename));
+
+		Input::file('file')->move(public_path().$dir, $filename);
+
+		return Response::json(array('filelink' => $dir.$filename));
+	}
+
 }
