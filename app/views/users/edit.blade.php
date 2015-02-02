@@ -2,11 +2,11 @@
 
 @section('main')
 
-    <h1>Edit User</h1>
+    <h1>Редактирование пользователя</h1>
     {{ Form::model($user, array('method' => 'PATCH', 'route' => array('users.update', $user->id))) }}
     <ul>
         <li>
-            {{ Form::label('username', 'Username:') }}
+            {{ Form::label('username', 'Имя:') }}
             {{ Form::text('username', $user->username, array('disabled')) }}
         </li>
 
@@ -16,13 +16,13 @@
         </li>
 
         <li>
-            {{ Form::label('roles', 'Roles:') }}
+            {{ Form::label('roles', 'Роль:') }}
             {{ Form::text('roles', Input::old('roles', implode(', ', array_fetch($user->roles()->get(array('role'))->toArray(), 'role')))) }}
         </li>
 
         <li>
-            {{ Form::submit('Update', array('class' => 'btn btn-info')) }}
-            {{ link_to_route('users.show', 'Cancel', $user->id, array('class' => 'btn')) }}
+            {{ Form::submit('Обновить', array('class' => 'btn btn-info')) }}
+            {{ link_to_route('users.show', 'Отмена', $user->id, array('class' => 'btn')) }}
         </li>
     </ul>
     {{ Form::close() }}
