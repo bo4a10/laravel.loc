@@ -26,6 +26,7 @@
 			<li>{{ link_to_route('cities.index', 'Города') }}</li>
 			<li>{{ link_to_route('comments.index', 'Комментарии') }}</li>
 			<li>{{ link_to_route('companies.index', 'Компании') }}</li>
+			<li>{{ link_to_route('users.index', 'Пользователи') }}</li>
 			<li class="pull-right">{{ link_to_route('login.logout', 'Выход') }}</li>
 		</ul>
 	@endif

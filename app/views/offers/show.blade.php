@@ -8,33 +8,32 @@
 
 <table class="table table-striped table-bordered">
 	<thead>
-		<tr>
-			<th>Название</th>
-				<th>Описание</th>
-				<th>Город</th>
-				<th>Компания</th>
-				<th>Off</th>
-				<th>Изображение</th>
-				<th>Действует до</th>
-		</tr>
+	<tr>
+		<th>Название</th>
+		<th>Описание</th>
+		<th>Город</th>
+		<th>Компания</th>
+		<th>Off</th>
+		<th>Изображение</th>
+		<th>Тэги</th>
+		<th>Действие до</th>
+	</tr>
 	</thead>
 
 	<tbody>
-		<tr>
-			<td>{{{ $offer->title }}}</td>
-					<td>{{{ $offer->description }}}</td>
-					<td>{{{ $offer->city_id }}}</td>
-					<td>{{{ $offer->company_id }}}</td>
-					<td>{{{ $offer->off }}}</td>
-					<td>{{{ $offer->image }}}</td>
-					<td>{{{ $offer->expires }}}</td>
-                    <td>{{ link_to_route('offers.edit', 'Edit', array($offer->id), array('class' => 'btn btn-info')) }}</td>
-                    <td>
-                        {{ Form::open(array('method' => 'DELETE', 'route' => array('offers.destroy', $offer->id))) }}
-                            {{ Form::submit('Delete', array('class' => 'btn btn-danger')) }}
-                        {{ Form::close() }}
-                    </td>
-		</tr>
+	<tr>
+		<td>{{{ $offer->title }}}</td>
+		<td>{{ $offer->webDescription(array('shorten' => true, 'length' => 60)) }}</td>
+		<td>{{{ $offer->city->name }}}</td>
+		<td>{{{ $offer->company->title }}}</td>
+		<td>{{{ $offer->off }}}</td>
+		<td><img src="{{{ $offer->image }}}" style="max-width: 200px; max-height:150px;"/></td>
+		<td>
+			@foreach($offer->tags as $tag)
+				<span class="badge">{{{ $tag->title }}}</span>
+			@endforeach
+		</td>
+		<td>{{{ $offer->expires }}}</td>
 	</tbody>
 </table>
 

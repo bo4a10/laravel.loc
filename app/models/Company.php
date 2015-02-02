@@ -6,4 +6,9 @@ class Company extends Eloquent {
 	public static $rules = array(
 		'title' => 'required'
 	);
+
+	public function offers()
+	{
+		return $this->hasMany('Offer');
+	}
 }
