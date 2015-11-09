@@ -24,6 +24,8 @@
     </ul>
     {{ Form::close() }}
 
-{{--    @include('partials.errors', $errors)--}}
+    <p>{{ link_to_route('password.remind', 'Забыли пароль?!') }}</p>
+
+    @include('partials.errors', ['errors' => $errors])
 
 @stop

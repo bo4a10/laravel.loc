@@ -63,6 +63,11 @@ class LoginController extends BaseController {
 		$user->password = Hash::make(Input::get('password'));
 		$user->save();
 
+		Mail::send('emails.welcome', array('username' => $user->username), function($message) use ($user)
+		{
+			$message->to($user->email, $user->username)->subject('Welcome to Habra Offers!');
+		});
+
 		Auth::loginUsingId($user->id);
 
 		return Redirect::home()->with('message', 'Thank you for registration, now you can comment on offers!');
@@ -76,12 +81,17 @@ class LoginController extends BaseController {
 	 */
 	public function login()
 	{
-		if (Auth::attempt(array('email' => Input::get('email'), 'password' => Input::get('password')), true) ||
-			Auth::attempt(array('username' => Input::get('email'), 'password' => Input::get('password')), true)) {
-			return Redirect::intended('dashboard');
+		if (Auth::attempt(array('email' => Input::get('email'), 'password' => Input::get('password')), true)
+			|| Auth::attempt(array('username' => Input::get('email'), 'password' => Input::get('password')), true))	{
+
+			if (!Auth::user()->isRegular()) {
+				return Redirect::to('dashboard');
+			}
+
+			return Redirect::intended('/');
 		}
 
-		return Redirect::back()->withInput(Input::except('password'))->with('message', 'Такого пользователя нет в системе!');
+		return Redirect::back()->withInput(Input::except('password'))->with('message', 'Wrong creadentials!');
 	}
 
 	/**
@@ -94,6 +104,65 @@ class LoginController extends BaseController {
 		Auth::logout();
 
 		return Redirect::home()->with('message', 'До скорых встреч!');
+	}
+
+	/**
+	 * Show reminder form.
+	 *
+	 * @return Response
+	 */
+	public function showReminderForm()
+	{
+		return View::make('auth.remind');
+	}
+
+
+	/**
+	 * Send reminder email.
+	 *
+	 * @return Response
+	 */
+	public function sendReminder()
+	{
+		$credentials = array('email' => Input::get('email'));
+
+		return Password::remind($credentials, function($message, $user)
+		{
+			$message->subject('Password Reminder on Habra Offers');
+		});
+	}
+
+
+	/**
+	 * Show reset password form.
+	 *
+	 * @return Response
+	 */
+	public function showResetForm($token)
+	{
+		return View::make('auth.reset')->with('token', $token);
+	}
+
+
+	/**
+	 * Reset password.
+	 *
+	 * @return Response
+	 */
+	public function resetPassword($token)
+	{
+		$credentials = array('email' => Input::get('email'));
+
+		return Password::reset($credentials, function($user, $password)
+		{
+			$user->password = Hash::make($password);
+
+			$user->save();
+
+			Auth::loginUsingId($user->id);
+
+			return Redirect::home()->with('message', 'Your password has been successfully reseted.');
+		});
 	}
 
 }
